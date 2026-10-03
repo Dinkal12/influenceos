@@ -1,4 +1,3 @@
-'use client'
 import { ThemeProvider } from '@/components/landing/ThemeContext'
 import ThemeSwitcher from '@/components/landing/ThemeSwitcher'
 

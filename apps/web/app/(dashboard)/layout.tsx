@@ -1,13 +1,5 @@
-'use client'
 import { ThemeProvider } from '@/components/landing/ThemeContext'
-import { SessionProvider } from 'next-auth/react'
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <SessionProvider>
-      <ThemeProvider>
-        {children}
-      </ThemeProvider>
-    </SessionProvider>
-  )
+  return <ThemeProvider>{children}</ThemeProvider>
 }
