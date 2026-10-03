@@ -1,0 +1,16 @@
+﻿FROM node:20-alpine AS base
+RUN npm install -g pnpm turbo
+
+FROM base AS builder
+WORKDIR /app
+COPY . .
+RUN pnpm install --frozen-lockfile
+RUN turbo build --filter=@influencer/api
+
+FROM base AS runner
+WORKDIR /app
+COPY --from=builder /app/apps/api/dist ./dist
+COPY --from=builder /app/node_modules ./node_modules
+
+EXPOSE 4000
+CMD ["node", "dist/main.js"]

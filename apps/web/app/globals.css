@@ -1,0 +1,67 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Default theme vars (Obsidian Dark) ──────────────────── */
+:root {
+  --bg: #000000;
+  --bg-2: #0a0a0a;
+  --bg-card: rgba(255,255,255,0.02);
+  --bg-card-hover: rgba(255,255,255,0.05);
+  --border: rgba(255,255,255,0.08);
+  --border-hover: rgba(255,255,255,0.15);
+  --fg: #ffffff;
+  --fg-muted: rgba(255,255,255,0.4);
+  --fg-subtle: rgba(255,255,255,0.2);
+  --accent: #ffffff;
+  --accent-fg: #000000;
+  --accent-2: rgba(255,255,255,0.06);
+  --badge-bg: rgba(255,255,255,0.04);
+  --badge-border: rgba(255,255,255,0.12);
+  --hero-bg: radial-gradient(ellipse 80% 60% at 50% 40%, #111 0%, #000 100%);
+  --nav-scroll: rgba(0,0,0,0.7);
+  --section-divider: rgba(255,255,255,0.05);
+  --code-bg: rgba(0,0,0,0.6);
+  --cta-primary: #ffffff;
+  --cta-primary-fg: #000000;
+  --cta-secondary-border: rgba(255,255,255,0.12);
+  --cta-secondary-fg: rgba(255,255,255,0.7);
+  --label-dot: rgba(255,255,255,0.4);
+  --icon-bg: rgba(255,255,255,0.06);
+  --glow: rgba(255,255,255,0.03);
+  --scrollbar: #333;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  color: var(--fg);
+  background: var(--bg);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  transition: background 0.5s ease, color 0.5s ease;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--scrollbar); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: var(--border-hover); }
+
+/* Selection */
+::selection { background: var(--accent-2); color: var(--fg); }
+
+/* Smooth theme transitions on all elements */
+*, *::before, *::after {
+  transition-property: background-color, border-color, color, box-shadow;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+}
+/* But don't slow down transforms/opacity for animations */
+canvas, [class*="animate-"], [class*="transition-transform"] {
+  transition-property: none !important;
+}
