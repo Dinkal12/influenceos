@@ -16,7 +16,13 @@ export default function LoginClient() {
 
   useEffect(() => {
     if (params.get('registered') === '1') setSuccessMsg('Account created! Sign in to continue.')
-    if (params.get('error') === 'unauthorized') setServerError('You are not authorized for that page.')
+    const errParam = params.get('error')
+    if (errParam === 'unauthorized') {
+      setServerError('You are not authorized for that page.')
+    } else if (errParam && errParam !== 'CredentialsSignin') {
+      // NextAuth forwards failures (e.g. database unreachable) via ?error=
+      setServerError('Sign-in failed — a server error occurred. Please try again shortly.')
+    }
   }, [params])
 
   const validate = () => {
@@ -40,7 +46,11 @@ export default function LoginClient() {
 
     setLoading(false)
     if (result?.error) {
-      setServerError('Invalid email or password')
+      setServerError(
+        result.error === 'CredentialsSignin'
+          ? 'Invalid email or password'
+          : 'Sign-in failed — a server error occurred. Please try again shortly.'
+      )
     } else {
       router.push('/dashboard')
     }

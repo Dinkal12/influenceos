@@ -1,5 +1,37 @@
 'use client'
 
+import Link from 'next/link'
+
+const columns = [
+  {
+    title: 'Platform',
+    links: [
+      { label: 'Features', href: '/#features' },
+      { label: 'Marketplace', href: '/#features' },
+      { label: 'Analytics', href: '/#features' },
+      { label: 'Contracts', href: '/#features' },
+    ],
+  },
+  {
+    title: 'Company',
+    links: [
+      { label: 'About', href: '/#platform' },
+      { label: 'Blog', href: '/blog' },
+      { label: 'Careers', href: '/careers' },
+      { label: 'Press', href: '/blog' },
+    ],
+  },
+  {
+    title: 'Legal',
+    links: [
+      { label: 'Privacy', href: '/legal#privacy' },
+      { label: 'Terms', href: '/legal#terms' },
+      { label: 'Cookies', href: '/legal#cookies' },
+      { label: 'Security', href: '/legal#security' },
+    ],
+  },
+]
+
 export default function Footer() {
   return (
     <footer className="py-16 transition-colors duration-500" style={{ borderTop: '1px solid var(--section-divider)', background: 'var(--bg)' }}>
@@ -20,25 +52,21 @@ export default function Footer() {
               The modular influencer campaign platform for modern brands and creators.
             </p>
           </div>
-          {[
-            { title: 'Platform', links: ['Features', 'Marketplace', 'Analytics', 'Contracts'] },
-            { title: 'Company', links: ['About', 'Blog', 'Careers', 'Press'] },
-            { title: 'Legal', links: ['Privacy', 'Terms', 'Cookies', 'Security'] },
-          ].map((col) => (
+          {columns.map((col) => (
             <div key={col.title}>
               <h4 className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: 'var(--fg-subtle)' }}>{col.title}</h4>
               <ul className="space-y-2.5">
                 {col.links.map((link) => (
-                  <li key={link}>
-                    <a
-                      href="#"
-                      className="text-sm transition-colors"
+                  <li key={link.label}>
+                    <Link
+                      href={link.href}
+                      className="text-sm transition-colors hover:opacity-80"
                       style={{ color: 'var(--fg-subtle)' }}
                       onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--fg)')}
                       onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--fg-subtle)')}
                     >
-                      {link}
-                    </a>
+                      {link.label}
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -46,13 +74,17 @@ export default function Footer() {
           ))}
         </div>
         <div className="flex flex-col md:flex-row items-center justify-between pt-8 gap-4" style={{ borderTop: '1px solid var(--section-divider)' }}>
-          <p className="text-xs" style={{ color: 'var(--fg-subtle)' }}>© 2024 InfluenceOS. All rights reserved.</p>
+          <p className="text-xs" style={{ color: 'var(--fg-subtle)' }}>© {new Date().getFullYear()} InfluenceOS. All rights reserved.</p>
           <div className="flex items-center gap-4">
-            {['Twitter', 'GitHub', 'Discord'].map((s) => (
-              <a key={s} href="#" className="text-xs transition-colors" style={{ color: 'var(--fg-subtle)' }}
+            {[
+              { label: 'Twitter', href: '#' },
+              { label: 'GitHub', href: 'https://github.com/Dinkal12/influenceos' },
+              { label: 'Discord', href: '#' },
+            ].map((s) => (
+              <a key={s.label} href={s.href} className="text-xs transition-colors" style={{ color: 'var(--fg-subtle)' }}
                 onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--fg)')}
                 onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--fg-subtle)')}>
-                {s}
+                {s.label}
               </a>
             ))}
           </div>

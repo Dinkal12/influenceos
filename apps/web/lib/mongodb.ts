@@ -25,7 +25,9 @@ export async function connectDB(): Promise<mongoose.Connection> {
 
   if (!cached.promise) {
     cached.promise = mongoose
-      .connect(MONGODB_URI, { bufferCommands: false })
+      // Fail fast (5s instead of the 30s default) so requests return a clear
+      // error instead of hitting the serverless function timeout.
+      .connect(MONGODB_URI, { bufferCommands: false, serverSelectionTimeoutMS: 5000, connectTimeoutMS: 5000 })
       .then((m) => m.connection)
   }
 

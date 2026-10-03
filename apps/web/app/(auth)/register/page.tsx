@@ -18,7 +18,7 @@ export default function RegisterPage() {
   const validate = () => {
     const e: Record<string, string> = {}
     if (!form.name.trim()) e.name = 'Full name is required'
-    if (!form.email.includes('@')) e.email = 'Enter a valid email'
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) e.email = 'Enter a valid email'
     if (form.password.length < 6) e.password = 'At least 6 characters'
     if (form.password !== form.confirm) e.confirm = 'Passwords do not match'
     return e

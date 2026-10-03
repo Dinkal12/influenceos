@@ -76,7 +76,7 @@ export default function HeroSection() {
   return (
     <section
       id="platform"
-      className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden transition-colors duration-500"
+      className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden transition-colors duration-500 pt-24 pb-16"
       style={{ background: theme.vars['--hero-bg'] }}
     >
       {/* Hero BG image — only on dark theme */}
