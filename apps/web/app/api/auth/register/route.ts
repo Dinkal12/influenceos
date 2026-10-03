@@ -26,6 +26,16 @@ function classifyError(err: unknown): { status: number; message: string } {
   if (e?.code === 11000 || message.includes('duplicate key')) {
     return { status: 409, message: 'Email already in use' }
   }
+  if (
+    name.includes('Authentication') ||
+    e?.code === 18 ||
+    /Authentication failed|bad auth/i.test(message)
+  ) {
+    return {
+      status: 503,
+      message: 'Database authentication failed — check the username and password in MONGODB_URI',
+    }
+  }
   const looksLikeNetwork =
     name.includes('ServerSelection') ||
     name.includes('Network') ||

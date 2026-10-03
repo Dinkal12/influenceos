@@ -20,8 +20,8 @@ export default function LoginClient() {
     if (errParam === 'unauthorized') {
       setServerError('You are not authorized for that page.')
     } else if (errParam && errParam !== 'CredentialsSignin') {
-      // NextAuth forwards failures (e.g. database unreachable) via ?error=
-      setServerError('Sign-in failed — a server error occurred. Please try again shortly.')
+      // NextAuth forwards the actual failure (e.g. bad auth) via ?error=
+      setServerError(`Sign-in failed — ${errParam}`)
     }
   }, [params])
 
@@ -49,7 +49,7 @@ export default function LoginClient() {
       setServerError(
         result.error === 'CredentialsSignin'
           ? 'Invalid email or password'
-          : 'Sign-in failed — a server error occurred. Please try again shortly.'
+          : `Sign-in failed — ${result.error}`
       )
     } else {
       router.push('/dashboard')
