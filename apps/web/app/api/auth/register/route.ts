@@ -4,6 +4,7 @@ import { NextRequest } from 'next/server'
 import { connectDB } from '@/lib/mongodb'
 import User from '@/models/User'
 import Creator from '@/models/Creator'
+import Notification from '@/models/Notification'
 import { successResponse, errorResponse } from '@/lib/api'
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -75,6 +76,22 @@ export async function POST(req: NextRequest) {
     // Auto-create empty Creator profile if role is creator
     if (user.role === 'creator') {
       await Creator.create({ user: user._id })
+    }
+
+    // Welcome notification — non-fatal if it fails
+    try {
+      await Notification.create({
+        user: user._id,
+        type: 'general',
+        title: 'Welcome to InfluenceOS',
+        message:
+          user.role === 'coordinator'
+            ? 'Your coordinator space is ready. Create your first campaign to get going.'
+            : 'Your creator space is ready. Complete your profile so coordinators can find you.',
+        link: user.role === 'coordinator' ? '/coordinator-portal' : '/creator-portal',
+      })
+    } catch (notifyErr) {
+      console.error('[REGISTER] welcome notification failed', notifyErr)
     }
 
     return successResponse(

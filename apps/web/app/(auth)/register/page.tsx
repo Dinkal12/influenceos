@@ -1,6 +1,7 @@
 'use client'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { signIn } from 'next-auth/react'
 import AuthPanel from '@/components/auth/AuthPanel'
 import { AuthInput } from '@/components/auth/AuthInput'
 
@@ -14,6 +15,7 @@ export default function RegisterPage() {
   const [loading, setLoading] = useState(false)
   const [serverError, setServerError] = useState('')
   const [success, setSuccess] = useState(false)
+  const [successMsg, setSuccessMsg] = useState('')
 
   const validate = () => {
     const e: Record<string, string> = {}
@@ -37,8 +39,23 @@ export default function RegisterPage() {
       })
       const data = await res.json()
       if (!res.ok) { setServerError(data.error || 'Registration failed'); return }
+
+      // Account created — sign the user in so they land in their portal
       setSuccess(true)
-      setTimeout(() => router.push('/login?registered=1'), 1600)
+      setSuccessMsg('Account created! Signing you in…')
+      const login = await signIn('credentials', {
+        email: form.email,
+        password: form.password,
+        redirect: false,
+      })
+
+      if (login?.error) {
+        // Account exists but auto sign-in failed — fall back to manual login
+        setSuccessMsg('Account created! Redirecting to login…')
+        setTimeout(() => router.push('/login?registered=1'), 1600)
+      } else {
+        setTimeout(() => router.push('/dashboard'), 700)
+      }
     } catch {
       setServerError('Network error — please try again')
     } finally {
@@ -164,7 +181,7 @@ export default function RegisterPage() {
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
             </svg>
-            Account created! Redirecting to login…
+            {successMsg || 'Account created!'}
           </div>
         )}
 
